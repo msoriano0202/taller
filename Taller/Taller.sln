@@ -3,31 +3,36 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taller.API", "Taller.API\Taller.API.csproj", "{E290A6F0-791A-422A-A2E4-8A7C8C821D82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.API", "Taller.API\Taller.API.csproj", "{E290A6F0-791A-422A-A2E4-8A7C8C821D82}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{8A6C4A35-0BC5-4853-A823-29413FF570C6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{A6A4A2B1-A35F-46B2-9F87-9916DFE57808}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taller.Web", "Taller.Web\Taller.Web.csproj", "{31886E1E-E89F-4ED2-B32D-D75CAB3F5754}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.Web", "Taller.Web\Taller.Web.csproj", "{31886E1E-E89F-4ED2-B32D-D75CAB3F5754}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D9D6A9A-443B-4D4C-B81D-AAA52062A219}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{88D59D48-1DCE-44BA-9AA9-12BF8E5463F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taller.Domain", "Taller.Domain\Taller.Domain.csproj", "{A5B6D60C-0CAD-4F41-8B25-E12192217391}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.Domain", "Taller.Domain\Taller.Domain.csproj", "{A5B6D60C-0CAD-4F41-8B25-E12192217391}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taller.Dto", "Taller.Dto\Taller.Dto.csproj", "{9AD63483-8C90-4C8B-8850-2CB2E71DAA77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.Dto", "Taller.Dto\Taller.Dto.csproj", "{9AD63483-8C90-4C8B-8850-2CB2E71DAA77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taller.Contracts", "Taller.Contracts\Taller.Contracts.csproj", "{DDA00911-39C3-4058-AE01-434A50FB3450}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.Contracts", "Taller.Contracts\Taller.Contracts.csproj", "{DDA00911-39C3-4058-AE01-434A50FB3450}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F946750E-50E7-4427-8BE9-33750DC80E36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taller.Common", "Taller.Common\Taller.Common.csproj", "{EE745194-5D77-44C9-9DA3-0D9E9C5F401B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.Common", "Taller.Common\Taller.Common.csproj", "{EE745194-5D77-44C9-9DA3-0D9E9C5F401B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taller.Services", "Taller.Services\Taller.Services.csproj", "{1B616B52-4D19-40B3-8C96-A77F28126C5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.Services", "Taller.Services\Taller.Services.csproj", "{1B616B52-4D19-40B3-8C96-A77F28126C5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taller.Managers", "Taller.Managers\Taller.Managers.csproj", "{4FE9CAD8-9CCD-46DA-A866-584CD1DD6645}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.Managers", "Taller.Managers\Taller.Managers.csproj", "{4FE9CAD8-9CCD-46DA-A866-584CD1DD6645}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{734DB4B8-A593-43C5-9718-A4A04E0F5671}"
+	ProjectSection(SolutionItems) = preProject
+		query.sql = query.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +89,7 @@ Global
 		{EE745194-5D77-44C9-9DA3-0D9E9C5F401B} = {F946750E-50E7-4427-8BE9-33750DC80E36}
 		{1B616B52-4D19-40B3-8C96-A77F28126C5F} = {8A6C4A35-0BC5-4853-A823-29413FF570C6}
 		{4FE9CAD8-9CCD-46DA-A866-584CD1DD6645} = {8A6C4A35-0BC5-4853-A823-29413FF570C6}
+		{734DB4B8-A593-43C5-9718-A4A04E0F5671} = {2D9D6A9A-443B-4D4C-B81D-AAA52062A219}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {556FDD44-21FC-4397-9DED-FFCB38A8F4C0}
