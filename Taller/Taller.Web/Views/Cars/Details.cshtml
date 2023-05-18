@@ -63,21 +63,9 @@
     </form>
 </div>
 
-<div>
-    @if (TempData.ContainsKey("SuccessMessage"))
-    {
-        <span class="text-success">@TempData["SuccessMessage"]!.ToString()</span>
-    }
-    
-    @if (TempData.ContainsKey("ErrorMessage"))
-    {
-        <span class="text-danger">@TempData["ErrorMessage"]!.ToString()</span>
-    }
-</div>
-
+<partial name="_Messages" />
 
 <br />
 <div>
-    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
     <a asp-action="Index">Back to List</a>
 </div>

@@ -1,0 +1,11 @@
+﻿<div>
+    @if (TempData.ContainsKey("SuccessMessage"))
+    {
+        <span class="text-success">@TempData["SuccessMessage"]!.ToString()</span>
+    }
+
+    @if (TempData.ContainsKey("ErrorMessage"))
+    {
+        <span class="text-danger">@TempData["ErrorMessage"]!.ToString()</span>
+    }
+</div>

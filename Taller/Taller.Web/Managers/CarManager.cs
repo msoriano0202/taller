@@ -1,5 +1,5 @@
-﻿using Taller.Dto.Response;
-using Taller.Web.Models;
+﻿using Taller.Dto.Request;
+using Taller.Dto.Response;
 using Taller.Web.Services;
 
 namespace Taller.Web.Managers
@@ -9,6 +9,7 @@ namespace Taller.Web.Managers
         Task<List<CarResponse>> GetAllCars();
         Task<CarResponse> GetCarById(int id);
         Task<bool> GuessCarPrice(int id, decimal price);
+        Task<bool> AddCar(CreateCarRequest createCarRequest);
     }
 
 
@@ -45,6 +46,14 @@ namespace Taller.Web.Managers
         {
             var response = await _carService.GuessCarPrice(id, price);
             return response.Data;
+        }
+
+        public async Task<bool> AddCar(CreateCarRequest createCarRequest)
+        {
+            var response = await _carService.AddCar(createCarRequest);
+            if (response.IsSuccess) return response.Data;
+
+            return false;
         }
     }
 }

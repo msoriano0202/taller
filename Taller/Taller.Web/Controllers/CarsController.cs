@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
+using Taller.Dto.Request;
 using Taller.Web.Managers;
 using Taller.Web.Models;
 
@@ -35,13 +34,10 @@ namespace Taller.Web.Controllers
                 return Redirect("/Cars");
             }
 
+            data.Price = 0;
             if (TempData.ContainsKey("GuessPrice"))
             {
                 data.Price = Convert.ToDecimal(TempData["GuessPrice"].ToString());
-            }
-            else 
-            {
-                data.Price = 0;
             }
 
             var response = _mapper.Map<CarViewModel>(data);
@@ -67,26 +63,36 @@ namespace Taller.Web.Controllers
             return Redirect($"/Cars/Details/{id.ToString()}");
         }
 
-        //// GET: CarsController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: CarsController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(CarCreateViewModel carCreateViewModel)
+        {
+            try
+            {
+                if(!ModelState.IsValid)
+                    return View(carCreateViewModel);
+
+                var request = _mapper.Map<CreateCarRequest>(carCreateViewModel);
+                var created = await _carManager.AddCar(request);
+                if (created) {
+                    TempData["SuccessMessage"] = "Car CREATED!";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                TempData["ErrorMessage"] = "Car was NOT CREATED!";
+                return View(carCreateViewModel);
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "There were some errors!";
+                return View(carCreateViewModel);
+            }
+        }
 
         //// GET: CarsController/Edit/5
         //public ActionResult Edit(int id)
@@ -113,21 +119,6 @@ namespace Taller.Web.Controllers
         //public ActionResult Delete(int id)
         //{
         //    return View();
-        //}
-
-        //// POST: CarsController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
         //}
     }
 }

@@ -10,6 +10,7 @@ namespace Taller.Web.Services
         Task<ApiResponse<List<CarResponse>>> GetAllCars();
         Task<ApiResponse<CarResponse>> GetCarById(int id);
         Task<ApiResponse<bool>> GuessCarPrice(int id, decimal price);
+        Task<ApiResponse<bool>> AddCar(CreateCarRequest createCarRequest);
     }
 
     public class CarService : ICarService
@@ -39,6 +40,12 @@ namespace Taller.Web.Services
         {
             var model = new GuessCarPriceRequest { Id = id, Price = price };
             var response = await _apiHelper.PostAsync<bool, GuessCarPriceRequest>(_carApiBaseUrl, $"api/v1/cars/GuessCarPrice", model);
+            return response;
+        }
+
+        public async Task<ApiResponse<bool>> AddCar(CreateCarRequest createCarRequest)
+        {
+            var response = await _apiHelper.PostAsync<bool, CreateCarRequest>(_carApiBaseUrl, $"api/v1/cars", createCarRequest);
             return response;
         }
     }
