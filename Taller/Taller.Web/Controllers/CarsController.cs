@@ -19,7 +19,7 @@ namespace Taller.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var data = await _carManager.GetAllCars();
+            var data = await _carManager.GetAllCarsAsync();
             var response = _mapper.Map<List<CarViewModel>>(data);
 
             return View(response);
@@ -27,17 +27,17 @@ namespace Taller.Web.Controllers
 
         public async Task<ActionResult> Details(int id)
         {
-            var data = await _carManager.GetCarById(id);
+            var data = await _carManager.GetCarByIdAsync(id);
             if (data == null)
             {
                 TempData["ErrorMessage"] = "This Car does not exist!";
-                return Redirect("/Cars");
+                return RedirectToAction(nameof(Index));
             }
 
             data.Price = 0;
             if (TempData.ContainsKey("GuessPrice"))
             {
-                data.Price = Convert.ToDecimal(TempData["GuessPrice"].ToString());
+                data.Price = Convert.ToDecimal(TempData["GuessPrice"]!.ToString());
             }
 
             var response = _mapper.Map<CarViewModel>(data);
@@ -50,7 +50,7 @@ namespace Taller.Web.Controllers
         {
             TempData["GuessPrice"] = price.ToString();
 
-            var validResponse = await _carManager.GuessCarPrice(id, price);
+            var validResponse = await _carManager.GuessCarPriceAsync(id, price);
             if (validResponse)
             {
                 TempData["SuccessMessage"] = "Great Job!!!";
@@ -60,7 +60,7 @@ namespace Taller.Web.Controllers
                 TempData["ErrorMessage"] = "Try again!";
             }
 
-            return Redirect($"/Cars/Details/{id.ToString()}");
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         public ActionResult Create()
@@ -78,7 +78,7 @@ namespace Taller.Web.Controllers
                     return View(carCreateViewModel);
 
                 var request = _mapper.Map<CreateCarRequest>(carCreateViewModel);
-                var created = await _carManager.AddCar(request);
+                var created = await _carManager.AddCarAsync(request);
                 if (created) {
                     TempData["SuccessMessage"] = "Car CREATED!";
                     return RedirectToAction(nameof(Index));
@@ -94,31 +94,17 @@ namespace Taller.Web.Controllers
             }
         }
 
-        //// GET: CarsController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+        public async Task<ActionResult> Delete(int id)
+        {
+            var deleted = await _carManager.DeleteCarAsync(id);
+            if (deleted)
+            {
+                TempData["SuccessMessage"] = "Car DELETED!";
+                return RedirectToAction(nameof(Index));
+            }
 
-        //// POST: CarsController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: CarsController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
+            TempData["ErrorMessage"] = "Car was NOT DELETED!";
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

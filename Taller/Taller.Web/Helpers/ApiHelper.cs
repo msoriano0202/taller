@@ -8,6 +8,7 @@ namespace Taller.Web.Helpers
     {
         Task<ApiResponse<T>> GetAsync<T>(string urlBase, string path);
         Task<ApiResponse<Res>> PostAsync<Res, Model>(string urlBase, string path, Model model);
+        Task<ApiResponse<T>> DeleteAsync<T>(string urlBase, string path);
     }
 
     public class ApiHelper : IApiHelper
@@ -87,6 +88,40 @@ namespace Taller.Web.Helpers
             catch (Exception ex)
             {
                 return new ApiResponse<Response>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<ApiResponse<T>> DeleteAsync<T>(string urlBase, string path)
+        {
+            try
+            {
+                var apiClient = _httpClientFactory.CreateClient();
+                apiClient.BaseAddress = new Uri(urlBase);
+
+                var response = await apiClient.DeleteAsync($"{path}");
+                var content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<T>
+                    {
+                        IsSuccess = false,
+                        Message = content,
+                    };
+                }
+
+                return new ApiResponse<T>
+                {
+                    IsSuccess = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<T>
                 {
                     IsSuccess = false,
                     Message = ex.Message

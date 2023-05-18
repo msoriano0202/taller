@@ -7,10 +7,11 @@ namespace Taller.Web.Services
 {
     public interface ICarService
     {
-        Task<ApiResponse<List<CarResponse>>> GetAllCars();
-        Task<ApiResponse<CarResponse>> GetCarById(int id);
-        Task<ApiResponse<bool>> GuessCarPrice(int id, decimal price);
-        Task<ApiResponse<bool>> AddCar(CreateCarRequest createCarRequest);
+        Task<ApiResponse<List<CarResponse>>> GetAllCarsAsync();
+        Task<ApiResponse<CarResponse>> GetCarByIdAsync(int id);
+        Task<ApiResponse<bool>> GuessCarPriceAsync(int id, decimal price);
+        Task<ApiResponse<bool>> AddCarAsync(CreateCarRequest createCarRequest);
+        Task<ApiResponse<bool>> DeleteCarAsync(int id);
     }
 
     public class CarService : ICarService
@@ -24,28 +25,34 @@ namespace Taller.Web.Services
             _apiHelper = apiHelper;
         }
 
-        public async Task<ApiResponse<List<CarResponse>>> GetAllCars()
+        public async Task<ApiResponse<List<CarResponse>>> GetAllCarsAsync()
         {
             var response = await _apiHelper.GetAsync<List<CarResponse>>(_carApiBaseUrl, $"api/v1/cars");
             return response;
         }
 
-        public async Task<ApiResponse<CarResponse>> GetCarById(int id)
+        public async Task<ApiResponse<CarResponse>> GetCarByIdAsync(int id)
         {
             var response = await _apiHelper.GetAsync<CarResponse>(_carApiBaseUrl, $"api/v1/cars/{id}");
             return response;
         }
 
-        public async Task<ApiResponse<bool>> GuessCarPrice(int id, decimal price)
+        public async Task<ApiResponse<bool>> GuessCarPriceAsync(int id, decimal price)
         {
             var model = new GuessCarPriceRequest { Id = id, Price = price };
             var response = await _apiHelper.PostAsync<bool, GuessCarPriceRequest>(_carApiBaseUrl, $"api/v1/cars/GuessCarPrice", model);
             return response;
         }
 
-        public async Task<ApiResponse<bool>> AddCar(CreateCarRequest createCarRequest)
+        public async Task<ApiResponse<bool>> AddCarAsync(CreateCarRequest createCarRequest)
         {
             var response = await _apiHelper.PostAsync<bool, CreateCarRequest>(_carApiBaseUrl, $"api/v1/cars", createCarRequest);
+            return response;
+        }
+
+        public async Task<ApiResponse<bool>> DeleteCarAsync(int id)
+        {
+            var response = await _apiHelper.DeleteAsync<bool>(_carApiBaseUrl, $"api/v1/cars/{id}");
             return response;
         }
     }

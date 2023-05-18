@@ -6,10 +6,11 @@ namespace Taller.Web.Managers
 {
     public interface ICarManager 
     {
-        Task<List<CarResponse>> GetAllCars();
-        Task<CarResponse> GetCarById(int id);
-        Task<bool> GuessCarPrice(int id, decimal price);
-        Task<bool> AddCar(CreateCarRequest createCarRequest);
+        Task<List<CarResponse>> GetAllCarsAsync();
+        Task<CarResponse> GetCarByIdAsync(int id);
+        Task<bool> GuessCarPriceAsync(int id, decimal price);
+        Task<bool> AddCarAsync(CreateCarRequest createCarRequest);
+        Task<bool> DeleteCarAsync(int id);
     }
 
 
@@ -22,9 +23,9 @@ namespace Taller.Web.Managers
             _carService = carService;
         }
 
-        public async Task<List<CarResponse>> GetAllCars() 
+        public async Task<List<CarResponse>> GetAllCarsAsync() 
         {
-            var response = await _carService.GetAllCars();
+            var response = await _carService.GetAllCarsAsync();
 
             if (response.IsSuccess)
                 return response.Data;
@@ -32,9 +33,9 @@ namespace Taller.Web.Managers
             return new List<CarResponse>();
         }
 
-        public async Task<CarResponse> GetCarById(int id)
+        public async Task<CarResponse> GetCarByIdAsync(int id)
         {
-            var response = await _carService.GetCarById(id);
+            var response = await _carService.GetCarByIdAsync(id);
 
             if (response.IsSuccess)
                 return response.Data;
@@ -42,18 +43,22 @@ namespace Taller.Web.Managers
             return null;
         }
 
-        public async Task<bool> GuessCarPrice(int id, decimal price)
+        public async Task<bool> GuessCarPriceAsync(int id, decimal price)
         {
-            var response = await _carService.GuessCarPrice(id, price);
+            var response = await _carService.GuessCarPriceAsync(id, price);
             return response.Data;
         }
 
-        public async Task<bool> AddCar(CreateCarRequest createCarRequest)
+        public async Task<bool> AddCarAsync(CreateCarRequest createCarRequest)
         {
-            var response = await _carService.AddCar(createCarRequest);
-            if (response.IsSuccess) return response.Data;
+            var response = await _carService.AddCarAsync(createCarRequest);
+            return response.IsSuccess;
+        }
 
-            return false;
+        public async Task<bool> DeleteCarAsync(int id)
+        {
+            var response = await _carService.DeleteCarAsync(id);
+            return response.IsSuccess;
         }
     }
 }
