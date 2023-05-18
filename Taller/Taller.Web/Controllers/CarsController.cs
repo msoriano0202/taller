@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 using Taller.Web.Managers;
 using Taller.Web.Models;
 
@@ -17,7 +18,6 @@ namespace Taller.Web.Controllers
             _mapper = mapper;
         }
 
-        // GET: CarsController
         public async Task<ActionResult> Index()
         {
             var data = await _carManager.GetAllCars();
@@ -26,73 +26,108 @@ namespace Taller.Web.Controllers
             return View(response);
         }
 
-        // GET: CarsController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            var data = await _carManager.GetCarById(id);
+            if (data == null)
+            {
+                TempData["ErrorMessage"] = "This Car does not exist!";
+                return Redirect("/Cars");
+            }
+
+            if (TempData.ContainsKey("GuessPrice"))
+            {
+                data.Price = Convert.ToDecimal(TempData["GuessPrice"].ToString());
+            }
+            else 
+            {
+                data.Price = 0;
+            }
+
+            var response = _mapper.Map<CarViewModel>(data);
+            return View(response);
         }
 
-        // GET: CarsController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CarsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> GuessPrice(int id, decimal price)
         {
-            try
+            TempData["GuessPrice"] = price.ToString();
+
+            var validResponse = await _carManager.GuessCarPrice(id, price);
+            if (validResponse)
             {
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = "Great Job!!!";
             }
-            catch
+            else 
             {
-                return View();
+                TempData["ErrorMessage"] = "Try again!";
             }
+
+            return Redirect($"/Cars/Details/{id.ToString()}");
         }
 
-        // GET: CarsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //// GET: CarsController/Create
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: CarsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// POST: CarsController/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create(IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
-        // GET: CarsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //// GET: CarsController/Edit/5
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
-        // POST: CarsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// POST: CarsController/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
+
+        //// GET: CarsController/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
+
+        //// POST: CarsController/Delete/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }

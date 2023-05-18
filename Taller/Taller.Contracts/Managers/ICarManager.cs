@@ -8,5 +8,6 @@ namespace Taller.Contracts.Managers
         Car GetCarById(int id);
         bool AddCar(Car car);
         bool DeleteCarById(int id);
+        bool GuessCarPrice(int id, decimal price);
     }
 }

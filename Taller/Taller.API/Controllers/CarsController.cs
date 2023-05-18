@@ -71,5 +71,18 @@ namespace Taller.API.Controllers
 
             return NotFound();
         }
+
+        [HttpPost]
+        [Route("GuessCarPrice")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<bool> GuessCarPrice([FromBody] GuessCarPriceRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var response = _carManager.GuessCarPrice(request.Id, request.Price);
+            return Ok(response);
+        }
     }
 }

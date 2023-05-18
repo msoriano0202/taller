@@ -7,6 +7,7 @@ namespace Taller.Managers
     public class CarManager : ICarManager
     {
         private readonly ICarService _carService;
+        private const decimal VALID_DIFFERENCE_AMOUNT = 5000;
 
         public CarManager(ICarService carService)
         {
@@ -31,6 +32,21 @@ namespace Taller.Managers
         public bool DeleteCarById(int id)
         {
             return _carService.DeleteById(id);
+        }
+
+        public bool GuessCarPrice(int id, decimal price) 
+        {
+            var response = false;
+
+            var car = _carService.GetById(id);
+            if (car != null)
+            {
+                var difference = Math.Abs(price - car.Price);
+                if (difference <= VALID_DIFFERENCE_AMOUNT)
+                    response = true;
+            }
+
+            return response;
         }
     }
 }

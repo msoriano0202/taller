@@ -1,4 +1,6 @@
-﻿namespace Taller.Web.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Taller.Web.Models
 {
     public class CarViewModel
     {
@@ -8,6 +10,8 @@
         public int Year { get; set; }
         public int Doors { get; set; }
         public string Color { get; set; }
+
+        [Display(Name = "Price")]
         public decimal Price { get; set; }
     }
 }

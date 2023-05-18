@@ -1,0 +1,83 @@
+﻿@model Taller.Web.Models.CarViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>CarViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Make)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Make)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Doors)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Doors)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Color)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Color)
+        </dd>
+    </dl>
+</div>
+<div>
+    <form asp-action="GuessPrice" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-secondary"></div>
+
+        <input type="hidden" asp-for="Id" />
+        
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label">Enter Price</label>
+                <div class="input-group mb-2">
+                    <input asp-for="Price" class="form-control" />
+                </div>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Guess Price" class="btn btn-light submitButton bol-bg-color-gold" />
+        </div>
+    </form>
+</div>
+
+<div>
+    @if (TempData.ContainsKey("SuccessMessage"))
+    {
+        <span class="text-success">@TempData["SuccessMessage"]!.ToString()</span>
+    }
+    
+    @if (TempData.ContainsKey("ErrorMessage"))
+    {
+        <span class="text-danger">@TempData["ErrorMessage"]!.ToString()</span>
+    }
+</div>
+
+
+<br />
+<div>
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    <a asp-action="Index">Back to List</a>
+</div>
