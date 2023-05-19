@@ -48,5 +48,10 @@ namespace Taller.Managers
 
             return response;
         }
+
+        public bool UpdateCar(int id, Car car)
+        {
+            return _carService.Update(id, car);
+        }
     }
 }

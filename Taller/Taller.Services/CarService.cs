@@ -1,4 +1,5 @@
-﻿using Taller.Contracts.Services;
+﻿using System.Linq.Expressions;
+using Taller.Contracts.Services;
 using Taller.Domain;
 
 namespace Taller.Services
@@ -55,6 +56,26 @@ namespace Taller.Services
             }
 
             return response;
+        }
+
+        public bool Update(int id, Car car)
+        {
+            var result = false;
+
+            var found = _carsData.FirstOrDefault(x => x.Id == id);
+            if (found != null)
+            {
+                found.Make = car.Make;
+                found.Model = car.Model;
+                found.Year = car.Year;
+                found.Doors = car.Doors;
+                found.Color = car.Color;
+                found.Price = car.Price;
+
+                result = true;
+            }
+
+            return result;
         }
     }
 }

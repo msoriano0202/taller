@@ -10,7 +10,9 @@ namespace Taller.Web.Mapper
         public CarMapperProfile()
         {
             CreateMap<CarResponse, CarViewModel>();
+            CreateMap<CarResponse, CarUpdateViewModel>();
             CreateMap<CarCreateViewModel, CreateCarRequest>();
+            CreateMap<CarUpdateViewModel, UpdateCarRequest>();
         }
     }
 }

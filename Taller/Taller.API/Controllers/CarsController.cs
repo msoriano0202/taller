@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations;
-//using Taller.Common.Models;
 using Taller.Contracts.Managers;
 using Taller.Domain;
 using Taller.Dto.Request;
@@ -83,6 +80,23 @@ namespace Taller.API.Controllers
 
             var response = _carManager.GuessCarPrice(request.Id, request.Price);
             return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<bool> UpdateCar([FromRoute] int id, [FromBody] UpdateCarRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var car = _mapper.Map<Car>(request);
+            var response = _carManager.UpdateCar(id, car);
+            if (response) return Ok(response);
+
+            return NotFound();
         }
     }
 }

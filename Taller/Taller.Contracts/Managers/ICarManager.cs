@@ -9,5 +9,6 @@ namespace Taller.Contracts.Managers
         bool AddCar(Car car);
         bool DeleteCarById(int id);
         bool GuessCarPrice(int id, decimal price);
+        bool UpdateCar(int id, Car car);
     }
 }

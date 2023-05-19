@@ -12,6 +12,7 @@ namespace Taller.Web.Services
         Task<ApiResponse<bool>> GuessCarPriceAsync(int id, decimal price);
         Task<ApiResponse<bool>> AddCarAsync(CreateCarRequest createCarRequest);
         Task<ApiResponse<bool>> DeleteCarAsync(int id);
+        Task<bool> UpdateCarAsync(int id, UpdateCarRequest updateCarRequest);
     }
 
     public class CarService : ICarService
@@ -54,6 +55,12 @@ namespace Taller.Web.Services
         {
             var response = await _apiHelper.DeleteAsync<bool>(_carApiBaseUrl, $"api/v1/cars/{id}");
             return response;
+        }
+
+        public async Task<bool> UpdateCarAsync(int id, UpdateCarRequest updateCarRequest)
+        {
+            var response = await _apiHelper.PutAsync<bool, UpdateCarRequest>(_carApiBaseUrl, $"api/v1/cars/{id}", updateCarRequest);
+            return response.IsSuccess;
         }
     }
 }

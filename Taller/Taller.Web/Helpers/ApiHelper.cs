@@ -9,6 +9,7 @@ namespace Taller.Web.Helpers
         Task<ApiResponse<T>> GetAsync<T>(string urlBase, string path);
         Task<ApiResponse<Res>> PostAsync<Res, Model>(string urlBase, string path, Model model);
         Task<ApiResponse<T>> DeleteAsync<T>(string urlBase, string path);
+        Task<ApiResponse<Res>> PutAsync<Res,Model>(string urlBase, string path, Model model);
     }
 
     public class ApiHelper : IApiHelper
@@ -122,6 +123,44 @@ namespace Taller.Web.Helpers
             catch (Exception ex)
             {
                 return new ApiResponse<T>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<ApiResponse<Res>> PutAsync<Res, Model>(string urlBase, string path, Model model)
+        {
+            try
+            {
+                var apiClient = _httpClientFactory.CreateClient();
+                apiClient.BaseAddress = new Uri(urlBase);
+
+                var requestString = JsonConvert.SerializeObject(model);
+                var stringContent = new StringContent(requestString, Encoding.UTF8, "application/json");
+                var response = await apiClient.PutAsync($"{path}", stringContent);
+                var content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ApiResponse<Res>
+                    {
+                        IsSuccess = false,
+                        Message = content,
+                    };
+                }
+
+                var data = JsonConvert.DeserializeObject<Res>(content);
+                return new ApiResponse<Res>
+                {
+                    IsSuccess = true,
+                    Data = data
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<Res>
                 {
                     IsSuccess = false,
                     Message = ex.Message

@@ -11,6 +11,7 @@ namespace Taller.API.Mapper
         {
             CreateMap<Car, CarResponse>();
             CreateMap<CreateCarRequest, Car>();
+            CreateMap<UpdateCarRequest, Car>();
         }
     }
 }

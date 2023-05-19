@@ -11,6 +11,7 @@ namespace Taller.Web.Managers
         Task<bool> GuessCarPriceAsync(int id, decimal price);
         Task<bool> AddCarAsync(CreateCarRequest createCarRequest);
         Task<bool> DeleteCarAsync(int id);
+        Task<bool> UpdateCarAsync(int id, UpdateCarRequest updateCarRequest);
     }
 
 
@@ -59,6 +60,12 @@ namespace Taller.Web.Managers
         {
             var response = await _carService.DeleteCarAsync(id);
             return response.IsSuccess;
+        }
+
+        public async Task<bool> UpdateCarAsync(int id, UpdateCarRequest updateCarRequest)
+        {
+            var response = await _carService.UpdateCarAsync(id, updateCarRequest);
+            return response;
         }
     }
 }

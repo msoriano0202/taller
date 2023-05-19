@@ -6,5 +6,6 @@
         T GetById(int id);
         bool Add(T model);
         bool DeleteById(int id);
+        bool Update(int id, T model);
     }
 }

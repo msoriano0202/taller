@@ -106,5 +106,46 @@ namespace Taller.Web.Controllers
             TempData["ErrorMessage"] = "Car was NOT DELETED!";
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<ActionResult> Update(int id)
+        {
+            var data = await _carManager.GetCarByIdAsync(id);
+
+            if (data == null)
+            {
+                TempData["ErrorMessage"] = "This Car does not exist!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var response = _mapper.Map<CarUpdateViewModel>(data);
+            return View(response);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Update(CarUpdateViewModel carUpdateViewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return View(carUpdateViewModel);
+
+                var request = _mapper.Map<UpdateCarRequest>(carUpdateViewModel);
+                var updated = await _carManager.UpdateCarAsync(carUpdateViewModel.Id, request);
+                if (updated)
+                {
+                    TempData["SuccessMessage"] = "Car UPDATED!";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                TempData["ErrorMessage"] = "Car was NOT UPDATED!";
+                return View(carUpdateViewModel);
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "There were some errors!";
+                return View(carUpdateViewModel);
+            }
+        }
     }
 }
